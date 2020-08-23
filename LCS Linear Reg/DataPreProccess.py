@@ -8,7 +8,6 @@ root.filename = filedialog.askopenfilename(initialdir = "/Downloads", title = "S
 
 
 df = pd.read_csv(root.filename)
-
 ml_prep_list= ["gameid", "url", "split", 'date', 'playerid','infernals','oceans', 'clouds','team','champion',
            'mountains','side', 'position', 'player', 'patch', 'game', 'ban1','ban2','ban3','ban4', 'ban5',
             "dragons (type unknown)","elementaldrakes","opp_elementaldrakes","elders","opp_elders",

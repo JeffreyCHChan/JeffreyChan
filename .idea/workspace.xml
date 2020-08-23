@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1a80b0ea-9f80-48c2-81b0-f20a84cb23ed" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Side Projects/Address.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1dhN17Lonr991fMn0BJRcwM5TTr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1a80b0ea-9f80-48c2-81b0-f20a84cb23ed" name="Default Changelist" comment="" />
+      <created>1592873146436</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592873146436</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="242" y="109" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1592874128399">
+      <screen x="0" y="0" width="1858" height="1080" />
+    </state>
+    <state x="242" y="109" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.271.1486.864/0.0.1858.1080@0.0.1858.1080" timestamp="1592874128399" />
+    <state x="192" y="87" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1474.864@0.0.1474.864" timestamp="1592873180635" />
+    <state x="525" y="246" key="FileChooserDialogImpl" timestamp="1592874241544">
+      <screen x="0" y="0" width="1858" height="1080" />
+    </state>
+    <state x="525" y="246" key="FileChooserDialogImpl/-1920.271.1486.864/0.0.1858.1080@0.0.1858.1080" timestamp="1592874241544" />
+    <state x="247" y="82" key="SettingsEditor" timestamp="1592874244310">
+      <screen x="0" y="0" width="1858" height="1080" />
+    </state>
+    <state x="247" y="82" key="SettingsEditor/-1920.271.1486.864/0.0.1858.1080@0.0.1858.1080" timestamp="1592874244310" />
+  </component>
+</project>
