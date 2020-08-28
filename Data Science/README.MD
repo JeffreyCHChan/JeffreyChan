@@ -1,18 +1,18 @@
 # Data Science
 
-##Datasets
+## Datasets
 For the purposes of testing and demonstration the following files can be used and are found in the LCS Folder. 
 
 Origin Source: 2020_LoL_esports_match_data.csv
 Test Parsed File: LCS.xlsx
 
-##Scripts
+## Scripts
 ####DataExtraction.py
 Extracts, transfer and loads raw data into 4 categories/folders (Players, Positions, Team (only team), Teams (including players)).
 The source of the origin file (.csv) was downloaded from https://oracleselixir.com/tools/downloads.
 The output file uses the extension .xlsx where the file name is the name of the regional league they belong to.
 
-####Player Graphs.py
+#### Player Graphs.py
 Generates the visualization of 8 metrics: 
 <ul>
 <li>Damage Share: Measure of total contribution to the overall damage output of the team.</li>
@@ -28,7 +28,7 @@ A rough calulation is Player's gold amount - oppenent's gold amount.</li>
 <li>DMG Output: Metric using the numerical value of damage produced by the player to the opponent's characters</li>
 </ul>
 
-####Team Graphs.py
+#### Team Graphs.py
 Generates the visualization of 2 metrics: 
 <ul>
 <li>First Dragon %: Measure of matches where they obtained the first dragon over the opposing team.</li>
