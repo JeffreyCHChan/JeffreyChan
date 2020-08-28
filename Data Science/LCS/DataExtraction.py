@@ -2,22 +2,33 @@ import pandas as pd
 from tkinter import filedialog
 from tkinter import *
 
+try:
+    root = Tk()
+    root.filename = filedialog.askopenfilename(initialdir = "/Downloads", title = "Select origin source", filetypes =
+    (("Excel Workbook","*.csv"),("all files","*")))
 
-root = Tk()
-root.filename = filedialog.askopenfilename(initialdir = "/Downloads", title = "Select origin source", filetypes =
-(("Excel Workbook","*.csv"),("all files","*")))
-
-print("The file "+root.filename +" has been loaded.")
+    print("The file "+root.filename +" has been loaded.")
 
 
-df = pd.read_csv(root.filename)
+    df = pd.read_csv(root.filename)
 
-#two drop lists are used to account for changes of the format of the raw dataset
-old_drop_list=["gameid", "url", "split", 'date', 'playerid','firedrakes','waterdrakes', 'airdrakes',
-           'earthdrakes']
-new_drop_list = ["gameid", "url", "split", 'date', 'playerid','infernals','oceans', 'clouds',
-           'mountains',"dragons (type unknown)"]
+    #two drop lists are used to account for changes of the format of the raw dataset
+    old_drop_list=["gameid", "url", "split", 'date', 'playerid','firedrakes','waterdrakes', 'airdrakes',
+               'earthdrakes']
+    new_drop_list = ["gameid", "url", "split", 'date', 'playerid','infernals','oceans', 'clouds',
+               'mountains',"dragons (type unknown)"]
+except:
+    print("Origin Source not Found")
+try:
+    root1 = Tk()
+    root1.filename = filedialog.askopenfilename(
+        initialdir = "C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS",
+        title = "Select parsed region file", filetypes =(("Excel Workbook","*.xlsx"),("all files","*")))
 
+    new_df = pd.read_excel(root1.filename)
+    print("The regional file of " + root1.filename+" has been selected.")
+except:
+    print("Parsed File not Found")
 
 def info_parsing(df): #Initial filtering to obtain a hard coded region which is "LCS" in this case
     df.drop(new_drop_list, axis=1, inplace=True) #A list of columns to exclude was used as they are irrelevant columns
@@ -38,26 +49,16 @@ def info_parsing(df): #Initial filtering to obtain a hard coded region which is 
 
 
 
-root1 = Tk()
-root1.filename = filedialog.askopenfilename(initialdir = "C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science"
-                                                    "\\LCS", title = "Select parsed region file", filetypes =
-(("Excel Workbook","*.xlsx"),("all files","*")))
 
-new_df = pd.read_excel(root1.filename)
-print("The regional file of " + root1.filename+" has been selected.")
-'''team_list = {}
-def teams(parsed_df):
-    a_teams= parsed_df[parsed_df['team']]
-    team_list=set(a_teams) #unique values of teams
-    return team_list
- #work on one region first
-'''
+
+
 
 def grouping_team(new_df): #All teams in the LCS region are sent to the LCS folder
     for teams in new_df['team'].unique():
         team = new_df[new_df.team.str.match("%s"%(teams))]
-        writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS'
-                                '\\Teams\\%s.xlsx'%(teams), engine='xlsxwriter')
+        writer = pd.ExcelWriter(
+            'C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS\\Teams (inlcuding players)\\%s.xlsx'%teams,
+            engine='xlsxwriter')
         team.to_excel(writer)
         writer.save()
 def grouping_team_stats(): #Sorting of unique Teams' overall stats into own excel file
@@ -65,8 +66,10 @@ def grouping_team_stats(): #Sorting of unique Teams' overall stats into own exce
                            "Team.xlsx")
     for teams in mod_df['team'].unique():
         team = mod_df[new_df.team.str.match("%s"%(teams))]
-        writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS' #create new folder then change LCS to another region
-                                '\\Team Stats\\%s.xlsx'%(teams), engine='xlsxwriter')
+        writer = pd.ExcelWriter(
+            'C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS\\Team (only team)\\%s.xlsx'%(teams)
+            , engine='xlsxwriter')
+        # create new folder then change LCS to another region
         team.to_excel(writer)
         writer.save()
 
@@ -83,7 +86,7 @@ def grouping_player(new_df): #creates a unique excel file for each player
     for players in new_df['player'].unique():
         player = new_df[new_df.player.str.match("%s"%(players),na=False)]
         writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS'
-                                '\\Players\\%s.xlsx'%(players), engine='xlsxwriter')
+                                '\\Players\\%s.xlsx'% (players), engine='xlsxwriter')
         player.to_excel(writer)
         writer.save()
 

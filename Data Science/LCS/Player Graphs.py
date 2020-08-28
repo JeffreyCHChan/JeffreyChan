@@ -5,15 +5,15 @@ import pandas as pd
 
 try:
     root = Tk()
-    root.filename = filedialog.askopenfilename(initialdir = "\Documents\GitHub\\JeffreyChan\Data Science\LCS",
-                                           title = "Select Player", filetypes =(("Excel Workbook","*.xlsx"),("all files","*")))
+    root.filename = filedialog.askopenfilename(
+        initialdir="\\LCS\\Players", title = "Select Player",
+                                               filetypes =(("Excel Workbook", "*.xlsx"), ("all files", "*")))
     df = pd.read_excel(root.filename)
 except:
     print("Error you did not give a valid file")
     exit(0)
 games = []
 kill_part = []
-average_game_time = []
 damagetochampions = []
 damageshare = []
 csdiffat10=[]
@@ -46,15 +46,7 @@ def kill_participation(final_df):
         kill_part.append(calculation)
     return kill_part #returns it to the outside
 
-def avgGameTime(final_df): #we need to access every team per week per day
 
-    game = final_df.game
-    team = final_df.team
-    time = final_df.gamelength
-    avg_time = list(zip(game,team,time))
-    for i in avg_time:
-        average_game_time.append(i[2])
-    return average_game_time
 
 def dmg_metrics(final_df):
 
@@ -87,7 +79,6 @@ def lane_diff(final_df):
 lane_diff(df)
 dmg_metrics(df)
 kill_participation(df)
-avgGameTime(df)
 vision_metrics(df)
 
 
@@ -95,22 +86,21 @@ vision_metrics(df)
 plt.suptitle(df.player.values[0])
 #small values
 plt.subplot(4,1,1)
-plt.plot(games, damageshare, label= "Damage Share")
-plt.plot(games, kill_part, label= "Participation %")
+plt.plot(games, damageshare, label= "Damage Share", marker="o")
+plt.plot(games, kill_part, label= "Participation %", marker="o")
 plt.legend(loc= "best",fontsize = "small")
 
 
 #mid sized values
 plt.subplot(4,1,2)
-plt.plot(games, visionscore, label= "Vision Score")
-plt.plot(games, csdiffat15, label= "CS Difference at 15")
-plt.plot(games, csdiffat10, label= "CS Difference at 10")
-plt.legend(loc= "best",fontsize = "small")
+plt.legend(loc= "best",fontsize = "small").plot(games, visionscore, label= "Vision Score", marker=".")
+plt.plot(games, csdiffat15, label= "CS Difference at 15", marker=".")
+plt.plot(games, csdiffat10, label= "CS Difference at 10", marker=".")
 
 #100's values
 plt.subplot(4,1,3)
-plt.plot(games, golddiffat10, label= "Gold Difference at 10")
-plt.plot(games, golddiffat15, label= "Gold Difference at 15")
+plt.plot(games, golddiffat10, label= "Gold Difference at 10", marker=".")
+plt.plot(games, golddiffat15, label= "Gold Difference at 15", marker=".")
 
 
 plt.legend(loc= "best",fontsize = "small")
@@ -119,7 +109,7 @@ plt.legend(loc= "best",fontsize = "small")
 #high valued metrics
 
 plt.subplot(4,1,4)
-plt.bar(games,damagetochampions, label="DMG output")
+plt.bar(games,damagetochampions, label="DMG Output")
 plt.xlabel("Game Number")
 plt.legend(loc= "best",fontsize = "small")
 

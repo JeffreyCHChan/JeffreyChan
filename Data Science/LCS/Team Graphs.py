@@ -4,8 +4,9 @@ from tkinter import filedialog
 import pandas as pd
 
 root = Tk()
-root.filename = filedialog.askopenfilename(initialdir = "\Documents\GitHub\\JeffreyChan\Data Science\LCS",
-                                           title = "Select Team", filetypes =(("Excel Workbook","*.xlsx"),("all files","*")))
+root.filename = filedialog.askopenfilename(
+    initialdir = "\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS\\Team (only team)",
+    title = "Select Team from Team (only team)", filetypes =(("Excel Workbook","*.xlsx"),("all files","*")))
 df = pd.read_excel(root.filename)
 
 games = []
@@ -17,7 +18,6 @@ x = 1
 while(x<=df.shape[0]):
     games.append(x)
     x += 1
-
 
 def avgGameTime(final_df): #we need to access every team per week per day
 
@@ -45,28 +45,23 @@ def first_drake(final_df):
     firstDrakeCounter[1] = fDrakeYes
     return firstDrake, firstDrakeCounter
 
-
-
-
-
 avgGameTime(df)
 first_drake(df)
-
-
-
 
 #small values
 
 fig, ax = plt.subplots(2, 1, constrained_layout=True)
 fig.suptitle(df.team.values[0])
-ax[0].set_title("First Dragon %")
+ax[0].set_title('First Dragon %% (%s games)' % (str(sum(firstDrakeCounter))))
 ax[0].pie(firstDrakeCounter, labels=["no","yes"], autopct='%1.1f%%')
+#The no label corresponds to the [0] of the firstDrakeCounter array
 
 
 
 #mid sized values
-
-ax[1].plot(games,average_game_time, label="Avg game time")
+ax[1].plot(games,average_game_time, label="Game Time", marker="o")
+plt.ylabel("Time (minutes)")
 ax[1].legend(loc= "best",fontsize = "small")
-
+plt.xlabel("Game Number")
+plt.legend(loc= "best",fontsize = "small")
 plt.show()
