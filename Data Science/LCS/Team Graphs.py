@@ -5,121 +5,68 @@ import pandas as pd
 
 root = Tk()
 root.filename = filedialog.askopenfilename(initialdir = "\Documents\GitHub\\JeffreyChan\Data Science\LCS",
-                                           title = "Select Player", filetypes =(("Excel Workbook","*.xlsx"),("all files","*")))
+                                           title = "Select Team", filetypes =(("Excel Workbook","*.xlsx"),("all files","*")))
 df = pd.read_excel(root.filename)
 
 games = []
-kill_part = []
 average_game_time = []
-damagetochampions = []
-damageshare = []
-csdiffat10=[]
-csdiffat15 = []
-golddiffat10 = []
-golddiffat15 = []
-visionscore=[]
+firstDrake = []
+firstDrakeCounter = [0, 0]
 
 x = 1
 while(x<=df.shape[0]):
     games.append(x)
     x += 1
 
-def kill_participation(final_df):
-    iK = final_df.kills.values
-    iA= final_df.assists.values
-    num = list(zip(iK,iA))
-    individual = []
-    TK = final_df.teamkills.values
-
-
-
-    for pairs in num: # zips up a players Kill and Assists
-        KA = sum(pairs)
-        individual.append(KA)
-    values = list(zip(individual,TK))
-
-
-
-    for game in values: # game is the first tuple so (sum of individuals KA, team Kills)
-        calculation = game[0]/game[1]
-        kill_part.append(calculation)
-    return kill_part #returns it to the outside
 
 def avgGameTime(final_df): #we need to access every team per week per day
 
     game = final_df.game
     team = final_df.team
-    time = final_df.gamelength
+    time = final_df.gamelength/60
     avg_time = list(zip(game,team,time))
     for i in avg_time:
         average_game_time.append(i[2])
     return average_game_time
 
-def dmg_metrics(final_df):
+def first_drake(final_df):
 
-    for i in df.damagetochampions:
-        damagetochampions.append(i)
+    for i in final_df.firstdragon:
+        firstDrake.append(i)
+    fDrakeYes = 0
+    fDrakeNo = 0
+    for i in firstDrake:
 
-    for i in df.damageshare:
-        damageshare.append(i)
-
-    return damagetochampions,damageshare
-
-def vision_metrics(final_df):
-
-    for i in df.visionscore:
-        visionscore.append(i)
-    return visionscore
-
-def lane_diff(final_df):
-    for i in df.golddiffat10:
-        golddiffat10.append(i)
-    for i in df.golddiffat15:
-        golddiffat15.append(i)
-    for i in df.csdiffat10:
-        csdiffat10.append(i)
-    for i in df.csdiffat15:
-        csdiffat15.append(i)
-    return golddiffat10,golddiffat15,csdiffat10,csdiffat15
+        if (firstDrake[i] == 1):
+            fDrakeYes +=1
+        else:
+            fDrakeNo +=1
+    firstDrakeCounter[0] = fDrakeNo
+    firstDrakeCounter[1] = fDrakeYes
+    return firstDrake, firstDrakeCounter
 
 
-lane_diff(df)
-dmg_metrics(df)
-kill_participation(df)
+
+
+
 avgGameTime(df)
-vision_metrics(df)
+first_drake(df)
 
 
 
-plt.suptitle(df.player.values[0])
+
 #small values
-plt.subplot(4,1,1)
-plt.plot(games, damageshare, label= "Damage Share")
-plt.plot(games, kill_part, label= "Kill Participation")
-plt.legend(loc= "best",fontsize = "small")
+
+fig, ax = plt.subplots(2, 1, constrained_layout=True)
+fig.suptitle(df.team.values[0])
+ax[0].set_title("First Dragon %")
+ax[0].pie(firstDrakeCounter, labels=["no","yes"], autopct='%1.1f%%')
+
 
 
 #mid sized values
-plt.subplot(4,1,2)
-plt.plot(games, visionscore, label= "Vision Score")
-plt.plot(games, csdiffat15, label= "CS Difference at 15")
-plt.plot(games, csdiffat10, label= "CS Difference at 10")
-plt.legend(loc= "best",fontsize = "small")
 
-#100's values
-plt.subplot(4,1,3)
-plt.plot(games, golddiffat10, label= "Gold Difference at 10")
-plt.plot(games, golddiffat15, label= "Gold Difference at 15")
-
-
-plt.legend(loc= "best",fontsize = "x-small")
-
-
-#high valued metrics
-
-plt.subplot(4,1,4)
-plt.plot(games,damagetochampions, label = "Damage done in Game")
-plt.xlabel("Game Number")
-plt.legend(loc= "best",fontsize = "small")
+ax[1].plot(games,average_game_time, label="Avg game time")
+ax[1].legend(loc= "best",fontsize = "small")
 
 plt.show()

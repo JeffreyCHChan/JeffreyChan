@@ -3,11 +3,14 @@ from tkinter import *
 from tkinter import filedialog
 import pandas as pd
 
-root = Tk()
-root.filename = filedialog.askopenfilename(initialdir = "\Documents\GitHub\\JeffreyChan\Data Science\LCS",
+try:
+    root = Tk()
+    root.filename = filedialog.askopenfilename(initialdir = "\Documents\GitHub\\JeffreyChan\Data Science\LCS",
                                            title = "Select Player", filetypes =(("Excel Workbook","*.xlsx"),("all files","*")))
-df = pd.read_excel(root.filename)
-
+    df = pd.read_excel(root.filename)
+except:
+    print("Error you did not give a valid file")
+    exit(0)
 games = []
 kill_part = []
 average_game_time = []
@@ -30,8 +33,6 @@ def kill_participation(final_df):
     num = list(zip(iK,iA))
     individual = []
     TK = final_df.teamkills.values
-
-
 
     for pairs in num: # zips up a players Kill and Assists
         KA = sum(pairs)
@@ -57,28 +58,28 @@ def avgGameTime(final_df): #we need to access every team per week per day
 
 def dmg_metrics(final_df):
 
-    for i in df.damagetochampions:
+    for i in final_df.damagetochampions:
         damagetochampions.append(i)
 
-    for i in df.damageshare:
+    for i in final_df.damageshare:
         damageshare.append(i)
 
     return damagetochampions,damageshare
 
 def vision_metrics(final_df):
 
-    for i in df.visionscore:
+    for i in final_df.visionscore:
         visionscore.append(i)
     return visionscore
 
 def lane_diff(final_df):
-    for i in df.golddiffat10:
+    for i in final_df.golddiffat10:
         golddiffat10.append(i)
-    for i in df.golddiffat15:
+    for i in final_df.golddiffat15:
         golddiffat15.append(i)
-    for i in df.csdiffat10:
+    for i in final_df.csdiffat10:
         csdiffat10.append(i)
-    for i in df.csdiffat15:
+    for i in final_df.csdiffat15:
         csdiffat15.append(i)
     return golddiffat10,golddiffat15,csdiffat10,csdiffat15
 
@@ -95,7 +96,7 @@ plt.suptitle(df.player.values[0])
 #small values
 plt.subplot(4,1,1)
 plt.plot(games, damageshare, label= "Damage Share")
-plt.plot(games, kill_part, label= "Kill Participation")
+plt.plot(games, kill_part, label= "Participation %")
 plt.legend(loc= "best",fontsize = "small")
 
 
@@ -118,7 +119,7 @@ plt.legend(loc= "best",fontsize = "small")
 #high valued metrics
 
 plt.subplot(4,1,4)
-plt.plot(games,damagetochampions, label = "Damage done in Game")
+plt.bar(games,damagetochampions, label="DMG output")
 plt.xlabel("Game Number")
 plt.legend(loc= "best",fontsize = "small")
 

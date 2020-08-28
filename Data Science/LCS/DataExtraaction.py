@@ -4,26 +4,31 @@ from tkinter import *
 
 
 root = Tk()
-root.filename = filedialog.askopenfilename(initialdir = "/Downloads", title = "Select file", filetypes =
+root.filename = filedialog.askopenfilename(initialdir = "/Downloads", title = "Select origin source", filetypes =
 (("Excel Workbook","*.csv"),("all files","*")))
+
+print("The file "+root.filename +" has been loaded.")
 
 
 df = pd.read_csv(root.filename)
 
+#two drop lists are used to account for changes of the format of the raw dataset
 old_drop_list=["gameid", "url", "split", 'date', 'playerid','firedrakes','waterdrakes', 'airdrakes',
            'earthdrakes']
 new_drop_list = ["gameid", "url", "split", 'date', 'playerid','infernals','oceans', 'clouds',
            'mountains',"dragons (type unknown)"]
 
 
-def info_parsing(df): # parses for a specific region
-    df.drop(new_drop_list, axis=1, inplace=True) #drop list not used to maximize data
-    df.player.fillna("Team")
-    df.fillna(0, inplace=True)
-    #df.loc[df['position']=='Team']
-    #test= df[df.position.str.match('Team')] #limiting the search to just one thing for now
-    league = df.loc[df['league'] == 'LCS'] #selects all of LCS
-    #selection = league.loc[(league['team']=='Team Liquid')] #can restrict to one team specifically
+def info_parsing(df): #Initial filtering to obtain a hard coded region which is "LCS" in this case
+    df.drop(new_drop_list, axis=1, inplace=True) #A list of columns to exclude was used as they are irrelevant columns
+    df.player.fillna("Team") #repalces all n/a entries in the player column with the "team"
+    df.fillna(0, inplace=True) #all values will be numeric values so we will associate "not applicable" as 0 (zero)
+
+    league = df.loc[df['league'] == 'LCS'] #selects all of LCS from the league column which represents a region
+    """
+    selection = league.loc[(league['team']=='Team Liquid')] #varible "selection allows for flexibility on selecting 
+    what to write to the excel file 
+    """
     selection = league
     writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS\\LCS.xlsx',
                             engine='xlsxwriter')
@@ -39,7 +44,7 @@ root1.filename = filedialog.askopenfilename(initialdir = "C:\\Users\\Jeff\\Docum
 (("Excel Workbook","*.xlsx"),("all files","*")))
 
 new_df = pd.read_excel(root1.filename)
-
+print("The regional file of " + root1.filename+" has been selected.")
 '''team_list = {}
 def teams(parsed_df):
     a_teams= parsed_df[parsed_df['team']]
@@ -48,14 +53,14 @@ def teams(parsed_df):
  #work on one region first
 '''
 
-def grouping_team(new_df): #grouping of all teams
+def grouping_team(new_df): #All teams in the LCS region are sent to the LCS folder
     for teams in new_df['team'].unique():
         team = new_df[new_df.team.str.match("%s"%(teams))]
-        writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS' #create new folder then change LCS to another region
+        writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS'
                                 '\\Teams\\%s.xlsx'%(teams), engine='xlsxwriter')
         team.to_excel(writer)
         writer.save()
-def grouping_team_stats(): #grouping of Team overall stats
+def grouping_team_stats(): #Sorting of unique Teams' overall stats into own excel file
     mod_df = pd.read_excel("C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS\\Positions\\"
                            "Team.xlsx")
     for teams in mod_df['team'].unique():
@@ -65,18 +70,16 @@ def grouping_team_stats(): #grouping of Team overall stats
         team.to_excel(writer)
         writer.save()
 
-def grouping_position(new_df): #grouping by position
-    drop_list = ["ban1", "ban2", "ban3", "ban4", "ban5"] #Removed all bans from this point on
-    new_df.drop(drop_list, axis=1, inplace=True)  # drop list not used to maximize data
+def grouping_position(new_df): #creates a unique excel file by position
+    drop_list = ["ban1", "ban2", "ban3", "ban4", "ban5"] #Removed all bans as this is relevant to whole teams not indivduals
+    new_df.drop(drop_list, axis=1, inplace=True)
     for positions in new_df['position'].unique():
         position = new_df[new_df.position.str.match("%s"%(positions))]
         writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS'
                                 '\\Positions\\%s.xlsx'%(positions), engine='xlsxwriter')
         position.to_excel(writer)
         writer.save()
-def grouping_player(new_df): #grouping by position
-    #drop_list = ["ban1", "ban2", "ban3", "ban4", "ban5"]
-    #new_df.drop(drop_list, axis=1, inplace=True)  # drop list not used to maximize data
+def grouping_player(new_df): #creates a unique excel file for each player
     for players in new_df['player'].unique():
         player = new_df[new_df.player.str.match("%s"%(players),na=False)]
         writer = pd.ExcelWriter('C:\\Users\\Jeff\\Documents\\GitHub\\JeffreyChan\\Data Science\\LCS'
@@ -85,10 +88,10 @@ def grouping_player(new_df): #grouping by position
         writer.save()
 
 
-#remove side, position, player, patch, game, league, bans for the ML data and make two seperate datasets one with
-# LCS and another with LCS removed
+
 info_parsing(df)
 grouping_team(new_df)
 grouping_position(new_df)
 grouping_player(new_df)
-grouping_team_stats(new_df)
+grouping_team_stats()
+print("Data preprocessing is done.")
