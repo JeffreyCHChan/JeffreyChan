@@ -93,10 +93,10 @@ plt.legend(loc= "best",fontsize = "small")
 
 #mid sized values
 plt.subplot(4,1,2)
-plt.legend(loc= "best",fontsize = "small")
 plt.plot(games, visionscore, label= "Vision Score", marker=".")
 plt.plot(games, csdiffat15, label= "CS Difference at 15", marker=".")
 plt.plot(games, csdiffat10, label= "CS Difference at 10", marker=".")
+plt.legend(loc= "best",fontsize = "small")
 
 #100's values
 plt.subplot(4,1,3)
