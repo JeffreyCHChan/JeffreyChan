@@ -42,7 +42,7 @@ def kill_participation(final_df):
 
 
     for game in values: # game is the first tuple so (sum of individuals KA, team Kills)
-        calculation = game[0]/game[1]
+        calculation = game[0]/game[1]*100
         kill_part.append(calculation)
     return kill_part #returns it to the outside
 
@@ -54,7 +54,7 @@ def dmg_metrics(final_df):
         damagetochampions.append(i)
 
     for i in final_df.damageshare:
-        damageshare.append(i)
+        damageshare.append(i*100)
 
     return damagetochampions,damageshare
 
@@ -93,7 +93,8 @@ plt.legend(loc= "best",fontsize = "small")
 
 #mid sized values
 plt.subplot(4,1,2)
-plt.legend(loc= "best",fontsize = "small").plot(games, visionscore, label= "Vision Score", marker=".")
+plt.legend(loc= "best",fontsize = "small")
+plt.plot(games, visionscore, label= "Vision Score", marker=".")
 plt.plot(games, csdiffat15, label= "CS Difference at 15", marker=".")
 plt.plot(games, csdiffat10, label= "CS Difference at 10", marker=".")
 

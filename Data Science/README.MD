@@ -7,7 +7,7 @@ Origin Source: 2020_LoL_esports_match_data.csv
 Test Parsed File: LCS.xlsx
 
 ## Scripts
-####DataExtraction.py
+#### DataExtraction.py
 Extracts, transfer and loads raw data into 4 categories/folders (Players, Positions, Team (only team), Teams (including players)).
 The source of the origin file (.csv) was downloaded from https://oracleselixir.com/tools/downloads.
 The output file uses the extension .xlsx where the file name is the name of the regional league they belong to.
